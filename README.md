@@ -1,66 +1,51 @@
-# Modern Glassmorphism Web Calculator
+# Glassmorphism Calculator
 
-A sleek, responsive, and minimalist **Web Calculator** application built with semantic HTML5, pure CSS3 layout engines, and native JavaScript. It features a contemporary **Glassmorphism UI** layered over a dark multi-stop linear gradient background and implements robust mathematical edge-case sanitization alongside physical hardware keyboard bindings.
+A responsive web calculator built with vanilla HTML, CSS, and JavaScript — no frameworks, no libraries. Focused on a clean glassmorphism UI and a JavaScript layer that handles the edge cases a basic calculator usually gets wrong.
 
-##  Live Demo
+## Live Demo
 
-Check out the live application here: **[Live Demo Link](https://mathewjebis.github.io/Calculator/)** 
+[View Live Demo](https://mathewjebis.github.io/Calculator/)
 
-##  Built With
+## Features
 
-- **HTML5**: Structured semantic layout matching user arithmetic grids.
-- **CSS3 Variables & Grid**: Powered by CSS Grid layout architectures, hardware-accelerated transitions, alpha-channel translucency, and frosted-glass filters.
-- **JavaScript (ES6+)**: Custom string parsers, strict evaluation environments, calculation sanitizers, and comprehensive global keyboard hook maps.
+- **Standard operations**: addition, subtraction, multiplication, division, modulo (`%`)
+- **Full keyboard support**: number keys, operators, `Enter`/`=` to calculate, `Backspace` to delete, `Escape` to clear
+- **Safe expression evaluation**: uses `Function('"use strict"; return (...)')()` in a strict, isolated scope instead of `eval()`, so user input never runs in the surrounding page's scope
+- **Division-by-zero handling**: shown as a styled "Error" state instead of `Infinity`
+- **Floating-point rounding**: results are rounded to 10 decimal places to avoid results like `0.1 + 0.2 = 0.30000000000000004`
+- **Input guarding**:
+  - Prevents a second decimal point in the same number (`1.2.3` isn't possible)
+  - Swaps a duplicate operator instead of creating an invalid expression (`5+*` becomes `5*`)
+  - Still allows a `-` right after an operator so you can multiply/divide by a negative number (`5 * -3` works correctly)
+  - Strips a redundant leading zero in a number (typing `0` then `5` gives `5`, not `05` — which matters because `05` interpreted literally would be an invalid octal literal in strict mode)
+- **Event delegation**: a single click listener on the button container handles all 17 buttons via `data-value`/`data-action` attributes, instead of an inline handler on each button
 
-##  Features
+## Technologies Used
 
-###  JavaScript Mathematical Sanitization Logic
+- HTML5
+- CSS3 (Grid layout, `backdrop-filter` for the glass effect, custom transitions)
+- Vanilla JavaScript (event delegation, keyboard events, strict-mode function evaluation)
 
-- **Floating-Point Precision Fix**: Automatically strips deep floating-point anomalies (such as `0.1 + 0.2`) by clamping and rounding complex evaluation answers down precisely to a maximum of 10 decimal boundaries (`parseFloat(result.toFixed(10))`).
-- **Smart Decimal Guard**: Parses the active string dynamically upon every dot interaction to prevent invalid duplicate floating points (`1.2.3`) within a single numerical section.
-- **Double Operator Prevention**: Intelligently swaps arithmetic markers out automatically if you type a second operator directly over an old one, avoiding expression crashes.
-- **Zero Division Safeties**: Catches division by zero strings seamlessly using dynamic checks (`!isFinite(result)`). It displays a stylized crimson red error alert state instead of outputting `Infinity`.
-- **Sandboxed Expression Processing**: Executes mathematical operations securely inside an isolated execution container (`Function('"use strict"; return ...')()`), entirely avoiding dangerous global evaluations (`eval()`).
+## Project Structure
 
-###  Full Physical Keyboard Support
-
-The application features a global window keyboard tracking loop that captures, intercepts, and redirects physical hardware keyboard inputs natively:
-
-- **Numbers & Arithmetic**: Mapped cleanly to `0` - `9`, `+`, `-`, `*`, `/`, `%`, and `.`.
-- **Execution & Evaluation**: Tap `Enter` or `=` to process strings asynchronously.
-- **Corrections & Flushing**: Tap `Backspace` to delete a single trailing digit, or `Escape` to instantly clear out the entire dashboard history.
-
-###  Glassmorphism Interface & Visual Details
-
-- **Translucent Layering**: The calculator body utilizes backdrop-filtering (`backdrop-filter: blur(20px)`) combined with subtle alpha-channel translucent borders to simulate frosted glass.
-- **Color-Coded Interaction Grid**: Clean `repeat(4, 1fr)` CSS layout system separates numerical buttons from operators (ambient blue highlights), actions (amber triggers), and clear keys (crimson themes).
-- **Tactile Transitions**: Hover properties lift elements up slightly (`translateY(-1px)`), while active click engagements trigger a compressed micro-scaling framework (`scale(0.96)`) to simulate real mechanical keys.
-- **Micro Viewport Breakpoints**: Elements fluidly rescale font sizes, internal paddings, and button grid layouts downward at mobile sizes (`max-width: 400px`) to shield the app from element overflow clipping.
-
-##  Project Structure
-
-```text
-├── index.html          # Element structures, operator layouts, and DOM bounds
-├── index.css           # Glassmorphism parameters, CSS grid maps, and animations
-└── index.js            # Validation algorithms, string slicing, and keyboard loops
+```
+├── index.html   # Calculator markup and button grid
+├── index.css    # Glassmorphism styling, layout, responsive breakpoints
+└── index.js     # Calculation logic, input validation, keyboard support
 ```
 
-##  Setup & Installation
+## Getting Started
 
-To run this project locally, simply follow these steps:
+No build step required — open `index.html` directly in a browser, or serve it locally:
 
-1. **Clone the repository:**
+```bash
+git clone https://github.com/mathewjebis/Calculator.git
+cd Calculator
+npx serve .
+```
 
-   ```bash
-   git clone https://github.com/mathewjebis/Calculator.git
-   ```
+## Author
 
-2. **Navigate to the project folder:**
+**S. Mathew Jebis**
 
-   ```bash
-   cd your-repository-name
-   ```
-
-3. **Open the project:**
-   - Double-click `index.html` to execute directly inside your preferred modern web browser.
-   - Alternatively, right-click and use the **Live Server** extension in VS Code for real-time live-reloading code changes.
+- GitHub: [mathewjebis](https://github.com/mathewjebis)
